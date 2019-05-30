@@ -30,7 +30,8 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
    * NOTE: Consult particle_filter.h for more information about this method 
    *   (and others in this file).
    */
-  num_particles = 1000;  // TODO: Set the number of particles
+
+  num_particles = 10;  // TODO: Set the number of particles
 
 
   // Set standard deviations for x, y, and theta
@@ -58,6 +59,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
   }
   //
   is_initialized = true;
+  //
 
 }
 
@@ -95,9 +97,9 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
     std::normal_distribution<double> dist_y(y0, std_y);
     std::normal_distribution<double> dist_theta(theta_0, std_theta);
     //
-    particles[i].x = x0 + dist_x(gen);
-    particles[i].y = y0 + dist_y(gen);
-    particles[i].theta = theta_0 + dist_theta(gen);
+    particles[i].x = dist_x(gen);
+    particles[i].y = dist_y(gen);
+    particles[i].theta = dist_theta(gen);
     //
   }
 }
@@ -160,7 +162,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
       Ym = Yp + (sin(theta_p) * Xc) + (cos(theta_p)*Yc);
       // Associate the observation with landmark id
       double dist_min, dist_tmp;
-      int id_min;
+      int id_min = -1;
       //
 
       for(int k=0; k< map_landmarks.landmark_list.size(); k++)
@@ -171,6 +173,10 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
           dist_min = dist_tmp;
           id_min = k;
         }
+        if(dist_tmp >sensor_range)
+        {
+          //std::cout<<"Error: the range is out of the sensor range; distance:" <<dist_tmp <<"; sensor range:" <<sensor_range <<std::endl;          
+        }
         else if(dist_min > dist_tmp)
         {
           dist_min = dist_tmp;
@@ -178,6 +184,12 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
         }
       }
       //
+      if(id_min == -1)
+      {
+        std::cout<<"\n Error to get the association landmark...." << std::endl;
+        continue;
+      }
+
       associations.push_back(map_landmarks.landmark_list[id_min].id_i);
       sense_x.push_back(Xm);
       sense_y.push_back(Ym);      
@@ -209,6 +221,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
       //
     }
     //Set the associatin observation with landmark
+    //std::cout<<"Association: particles[" << i << "] size:" << associations.size() <<" sense_x:" << sense_x.size() << " sense_y:" <<sense_y.size() <<std::endl;
     SetAssociations(particles[i], associations, sense_x, sense_y);
     //
     weights_sum += particles[i].weight;
@@ -229,27 +242,27 @@ void ParticleFilter::resample() {
    * NOTE: You may find std::discrete_distribution helpful here.
    *   http://en.cppreference.com/w/cpp/numeric/random/discrete_distribution
    */
-  std::vector<double>  weights;
+  std::vector<double>  weights_tmp;
   int index;
-  //init the discrete_distribution
+  //init the discrete_distribution's weight
+
   for (int i=0; i<particles.size();i++)
   {
     //
-    weights.push_back(particles[i].weight);
+    weights_tmp.push_back(particles[i].weight);
     //    
   }
   //resampling...
   std::default_random_engine gen;
-  std::discrete_distribution<int> disc_dist(weights.begin(),weights.end());
-  std::vector<Particle> new_particles;
+  std::discrete_distribution<int> disc_dist(weights_tmp.begin(),weights_tmp.end());
+  std::vector<Particle> particles_bak = particles;
   //
-  for (int i=0; i<particles.size();i++)
+  particles.clear();
+  for (int i=0; i<particles_bak.size();i++)
   {
     index = disc_dist(gen);
-    new_particles.push_back(particles[index]);
+    particles.push_back(particles_bak[index]);    
   }
-  //update particles
-  particles = new_particles;
 }
 
 void ParticleFilter::SetAssociations(Particle& particle, 
