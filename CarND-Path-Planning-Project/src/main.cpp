@@ -7,7 +7,10 @@
 #include "Eigen-3.3/Eigen/QR"
 #include "helpers.h"
 #include "json.hpp"
+<<<<<<< HEAD
 #include "spline.h"
+=======
+>>>>>>> fe8562c05fa3cc4196c1d9189e638bbe70256f55
 
 // for convenience
 using nlohmann::json;
@@ -50,6 +53,7 @@ int main() {
     map_waypoints_dx.push_back(d_x);
     map_waypoints_dy.push_back(d_y);
   }
+<<<<<<< HEAD
   //TODO:
   //define the const variables for some limit: speed, jerk
   const double MAX_SPEED = 49.0;
@@ -63,6 +67,10 @@ int main() {
   //END
 
   h.onMessage([&MAX_SPEED, &MAX_ACC, &VAL_INTERVAL, &VAL_MILES_PER_HOUR,&ref_velocity,&car_lane,&map_waypoints_x,&map_waypoints_y,&map_waypoints_s,
+=======
+
+  h.onMessage([&map_waypoints_x,&map_waypoints_y,&map_waypoints_s,
+>>>>>>> fe8562c05fa3cc4196c1d9189e638bbe70256f55
                &map_waypoints_dx,&map_waypoints_dy]
               (uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
                uWS::OpCode opCode) {
@@ -109,6 +117,7 @@ int main() {
            * TODO: define a path made up of (x,y) points that the car will visit
            *   sequentially every .02 seconds
            */
+<<<<<<< HEAD
           //
           //use the frenet coordinate and output the global position coordinate system;
           //smooth the cold start/ decrease the jerk on cold start
@@ -322,6 +331,10 @@ int main() {
           }
 
           //END
+=======
+
+
+>>>>>>> fe8562c05fa3cc4196c1d9189e638bbe70256f55
           msgJson["next_x"] = next_x_vals;
           msgJson["next_y"] = next_y_vals;
 
