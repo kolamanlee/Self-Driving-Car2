@@ -34,21 +34,29 @@ class PID {
    * @output The total PID error
    */
   double TotalError();
+  
+  /**
+   * Car_Run(cte) to update the CTE for P, I, D.
+   */
+  void Car_Run(double cte); // update the CTE to output to the simulator.
+  int m_nCar_Run_Max; // the max value for get the error
+
   /** 
    * Twiddle  function and the variables
   */
- void Twiddle_Run(double cte);
- void Twiddle_Loop(double cte);
+ bool m_bOptimize_flag; //if true, run twiddle to get better parameters of pid.
+
+
+ void Twiddle_Loop();
  
- int m_nTwiddle_Run_step;    // for count the loop steps 
+ int m_nCar_Run_step;    // for count the loop steps 
  int m_i;                 // for count the loop steps 
  double m_fBest_error;   // keep the best error value in a circle
  double m_fTotal_error; //  for the total error in the  twiddle circle
- int m_nTwiddle_Run_Max; // the max value for twiddle_run loop
  //
  int m_nTwiddle_stage; // the stages: 0 -- p; 1 -- d; 2--i;
  vector<double> m_dp;
-
+  int m_nTwiddle_step; // for get the total steps of running twiddle.
 
  public:
   /**
