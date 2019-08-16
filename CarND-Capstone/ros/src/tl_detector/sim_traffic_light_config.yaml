@@ -1,3 +1,4 @@
+
 camera_info:
   image_width: 800
   image_height: 600
@@ -10,4 +11,3 @@ stop_line_positions:
     - [821.96, 2905.8]
     - [161.76, 2303.82]
     - [351.84, 1574.65]
-is_site: False
