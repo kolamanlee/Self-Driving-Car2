@@ -33,7 +33,8 @@ The autonomous driving system is composed of perception, planning and control. T
 
 I used a deep learning model,named inception-2015 network, to retrain the traffic light images that saved from the simulator.  To get the training images in the simulator, I use the image_cb in tl_dector.py to save the different light pictures. And in totally, there are about 571 pictures to use in the retraining. The examples of pictures are shown as below:
 
-| ![Green](./imgs/green.jpg)  | ![Red](./imgs/red.jpg)  |   ![Yellow](./imgs/yellow.jpg)| ![Unknown](./imgs/unknown.jpg)|
+| ![Green](./imgs/green.jpg)  | ![Red](./imgs/red.jpg)  |  
+| ![Yellow](./imgs/yellow.jpg)| ![Unknown](./imgs/unknown.jpg)|
 
 
 
@@ -54,11 +55,10 @@ The linear speed of the vehicle is controlled with a classic digital PID control
 
 The controller signal is limited to the vehicle acceleration and deceleration limits. If the control command signals acceleration,the value is sent to the throttle as is. To avoid braking overuse and excessive jerk, the control is configured to first stop sending throttle signals and start actively braking the car only if the required force exceeds the brake deadband. Due to the asymptotic nature of PID control, we need to force a full stop with the parking torque of 700 N.m whenever the speed of vehicle falls below a threshold.
 
-Since the reference signal is relatively smooth, an automatic tuning process was not needed. The manual tuning started with adjusting the proportional gains and comparing it against the first seconds of the reference implementation. The other two components were adjusted with a manual process of minimizing the root mean squared error between the reference implementation and the output. The final result of this process in shown in [Drive-by-wire testing](#Drive-by-wire-testing)
 
 ## 
 
 ## Build Instructions 
 
-Follow the instruction of the project in the [readme](#readme)
+Follow the instruction of the project in the [readme](./README.md)
 
