@@ -33,8 +33,14 @@ The autonomous driving system is composed of perception, planning and control. T
 
 I used a deep learning model,named inception-2015 network, to retrain the traffic light images that saved from the simulator.  To get the training images in the simulator, I use the image_cb in tl_dector.py to save the different light pictures. And in totally, there are about 571 pictures to use in the retraining. The examples of pictures are shown as below:
 
-![Green](./imgs/green.jpg)  | ![Red](./imgs/red.jpg) ![Yellow](./imgs/yellow.jpg) ![Unknown](./imgs/unknown.jpg)
-
+<table>
+<tr>
+<td>[Green](./imgs/green.jpg)</td>
+<td>[Green](./imgs/red.jpg)</td>
+<td>[Green](./imgs/yellow.jpg)</td>
+<td>[Green](./imgs/unknown.jpg)</td>
+</tr>
+</table>
 
 
 ## Planning
