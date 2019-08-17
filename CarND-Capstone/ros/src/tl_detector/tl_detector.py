@@ -67,7 +67,7 @@ class TLDetector(object):
 
         self.light_classifier = TLClassifier(simulator = self.use_simulator)
         ###
-        #self.listener = tf.TransformListener()
+        self.listener = tf.TransformListener()
 
         rospy.loginfo('Init node TL_detector')
 
